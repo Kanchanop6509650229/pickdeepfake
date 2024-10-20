@@ -122,20 +122,40 @@ forrtl: error (200): program aborting due to control-C event
 
 1. Access website at http://127.0.0.1:8000
 2. Click "เริ่มการตรวจสอบภาพ" to access the image analysis page
+![image](https://github.com/user-attachments/assets/c48b00d9-fc3e-4297-be9c-1a9185edcfe1)
+
 3. Non-logged-in users get 10 free uses (resets every 6 hours)
+![image](https://github.com/user-attachments/assets/98184de9-a79e-4da2-bd8c-50dcc9ff6a83)
+![image](https://github.com/user-attachments/assets/f58356b9-6ba3-4bda-999c-dc573e001c72)
+
 4. Click website logo to return to homepage
+![image](https://github.com/user-attachments/assets/746ae7f1-a583-45ef-badb-8152614b0651)
+
 5. Click "แนบรูปภาพ" to upload an image
+![image](https://github.com/user-attachments/assets/cb7d6b56-2a50-4439-92d7-d122ace75076)
+
 6. Click uploaded image for full-screen view
+![image](https://github.com/user-attachments/assets/ea9c8048-f929-4ba0-9ef9-19f6177c7609)
+![image](https://github.com/user-attachments/assets/8b0c6d90-6411-4017-90ef-6df84145becd)
+
+
 7. Click "เริ่มการตรวจสอบภาพ" to start analysis
+![image](https://github.com/user-attachments/assets/02ce401f-ff7b-4f72-85e7-c382e3ca88d1)
+![image](https://github.com/user-attachments/assets/e60263f2-ada4-445b-93df-cdaa5660ea9d)
+
 8. Analysis results include:
    - Remaining usage count
    - Analysis results below image
    - Image source information
    - Analysis history (right side)
+![image](https://github.com/user-attachments/assets/e0893f89-cd4d-4d7d-8043-1b0247ce42b0)
+
 
 ### Authentication Features
 
 - Click "เข้าสู่ระบบ" for unlimited usage
+![image](https://github.com/user-attachments/assets/ee10777e-81ec-46bb-b305-b3b95e34b60a)
+
 - Login options:
   - Email/Username and password
   - Google SSO
@@ -144,19 +164,10 @@ forrtl: error (200): program aborting due to control-C event
   - Unlimited analysis
   - Persistent analysis history
   - Ability to delete history (individual or all)
+![image](https://github.com/user-attachments/assets/33ac2264-f0ba-432c-82da-d971e47cb45c)
+
 
 ---
-
-
-คู่มือนี้ได้ถูกปรับให้เป็นรูปแบบ Markdown ที่เหมาะสำหรับ GitHub README.md โดยมีการจัดโครงสร้างที่เป็นระเบียบและง่ายต่อการอ่าน ประกอบด้วย:
-
-1. สารบัญที่มีการลิงก์ไปยังส่วนต่างๆ
-2. การแบ่งหมวดหมู่ที่ชัดเจน
-3. การใช้ code blocks สำหรับคำสั่งต่างๆ
-4. การจัดรูปแบบที่เป็นลำดับขั้นตอน
-5. การแยกส่วนปัญหาที่พบบ่อยและคู่มือการใช้งาน
-
-คุณสามารถคัดลอกเนื้อหานี้ไปวางในไฟล์ README.md ในโปรเจค GitHub ของคุณได้เลย หากต้องการปรับแต่งเพิ่มเติม เช่น เพิ่มรูปภาพหรือแก้ไขข้อมูล สามารถแจ้งได้ครับ
 
 ข้อตกลงในการใช้ซอฟต์แวร์
 ซอฟต์แวร์นี้เป็นผลงานที่พัฒนาขึ้นโดย นายกาญจนพ บัวรอด, นายพนพล จุ่นเจิม และนางสาวศิวพร ลมสูงเนิน  จาก มหาวิทยาลัยธรรมศาสตร์ ภายใต้การดูแลของ รศ.ดร.ธนาธร ทะนานทอง ภายใต้โครงการระบบปัญญาประดิษฐ์สำหรับการตรวจสอบภาพปลอมบนสื่อสังคมออนไลน์ ซึ่งสนับสนุนโดย สำนักงานพัฒนาวิทยาศาสตร์และเทคโนโลยีแห่งชาติโดยมีวัตถุประสงค์เพื่อส่งเสริมให้นักเรียนและนักศึกษาได้เรียนรู้และฝึกทักษะในการพัฒนาซอฟต์แวร์ลิขสิทธิ์ของซอฟต์แวร์นี้จึงเปน็ ของผู้พัฒนา ซึ่งผู้พัฒนาได้อนุญาตให้สำนักงานพัฒนาวิทยาศาสตร์และเทคโนโลยีแห่งชาติเผยแพร่ซอฟต์แวร์นี้ตาม “ต้นฉบับ” โดยไม่มีการแก้ไขดัดแปลงใด ๆ ทั้งสิ้น ให้แก่บุคคลทั่วไปได้ใช้เพื่อประโยชน์ส่วนบุคคลหรือประโยชน์ทางการศึกษาที่ไม่มีวัตถุประสงค์ในเชิงพาณิชย์โดยไม่คิดค่าตอบแทนการใช้ซอฟต์แวร์ดังน้ัน สำนักงานพัฒนาวิทยาศาสตร์และเทคโนโลยีแห่งชาติจึงไม่มีหน้าที่ในการดูแล บำรุงรักษา จัดการอบรมการใช้งาน หรือพัฒนาประสิทธิภาพซอฟต์แวร์ รวมทั้งไม่รับรองความถูกต้องหรือประสิทธิภาพการทำงานของซอฟต์แวร์ ตลอดจนไม่รับประกันความเสียหายต่าง ๆ อันเกิดจากการใช้ซอฟต์แวร์นี้ท้ังสิ้น

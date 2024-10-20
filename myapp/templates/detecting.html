@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Image Detection System</title>
+    {% load static %}
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{% static 'myapp/css/detect.css' %}" />
+  </head>
+  <body>
+    <div class="main-content">
+      <div class="content-header">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <a href="{% url 'index' %}" class="text-decoration-none">
+              <h3>AI PICK DEEPFAKE SYSTEM</h3>
+            </a>
+          </div>
+          <div class="col-md-6 text-end">
+            <a href="{% url 'index' %}">
+              <img
+                src="{% static 'myapp/media/AI PICK DeepFake System.png' %}"
+                alt="Logo"
+                class="img-fluid"
+                style="max-height: 50px"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+      <div id="predictionLimitInfo" class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3">
+            <i class="fas fa-tachometer-alt me-2"></i>จำนวนการใช้งานคงเหลือ
+            <small class="d-block mt-1 text-muted login-cta">
+              [<a href="{% url 'login' %}" id="loginLink"
+                >เข้าสู่ระบบเพื่อใช้งานไม่จำกัดครั้ง</a
+              >]
+            </small>
+          </h5>
+          <div class="row">
+            <div class="col-md-6 mb-2 mb-md-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>จำนวนคงเหลือ:</span>
+                <span class="badge bg-primary">
+                  <span id="remainingPredictions"></span>/<span
+                    id="totalPredictions"
+                  ></span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div
+                id="resetTimeInfo"
+                class="d-flex justify-content-between align-items-center"
+              >
+                <span>รีเซ็ตใน:</span>
+                <span class="badge bg-secondary" id="resetCountdown"></span>
+              </div>
+            </div>
+          </div>
+          <div class="progress mt-3">
+            <div
+              id="predictionProgressBar"
+              class="progress-bar"
+              role="progressbar"
+              style="width: 0%"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="dcontent">
+        <div class="row h-100">
+          <div class="col-md-4">
+            <div class="detection-panel mb-4">
+              <div class="panel-header text-center mb-4">
+                <img
+                  src="{% static 'myapp/media/AI PICK DeepFake System.png' %}"
+                  alt="Logo"
+                  class="img-fluid"
+                  style="max-height: 80px;"
+                />
+                <h3>ตรวจสอบภาพ</h3>
+              </div>
+              <div class="upload-section mb-4">
+                <label
+                  for="imageInput"
+                  class="custom-file-upload btn btn-outline-primary btn-lg w-100"
+                >
+                  <i class="fas fa-cloud-upload-alt me-2"></i>แนบรูปภาพ
+                </label>
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept=".jpg,.jpeg,.png,.bmp,.gif,.tif,.tiff,.heic"
+                />
+              </div>
+              <div class="action-section">
+                <button
+                  id="predictButton"
+                  class="btn btn-primary btn-lg w-100 d-none"
+                >
+                  <i class="fas fa-magic me-2"></i>เริ่มการตรวจสอบภาพ
+                </button>
+              </div>
+            </div>
+            <div id="searchResults" class="search-results mt-4"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="image-preview" id="imagePreview">
+              <span>ตัวอย่างภาพ</span>
+            </div>
+            <div id="predictionNavigation" class="mt-3">
+              <!-- ปุ่มตัวเลขจะถูกสร้างโดย JavaScript -->
+            </div>
+            <div class="image-result">
+              <div id="partResult">
+                <!-- ผลลัพธ์สำหรับแต่ละส่วนจะแสดงที่นี่ -->
+              </div>
+              <div id="imageResult">
+                <!-- ผลลัพธ์รวมจะแสดงที่นี่ -->
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="history">
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>ประวัติ</h4>
+                <button
+                  id="deleteAllHistory"
+                  class="btn btn-danger btn-sm d-none"
+                >
+                  ลบประวัติทั้งหมด
+                </button>
+              </div>
+              <ul id="historyList" class="list-group mt-3">
+                <!-- History items will be added here dynamically -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button id="authButton" class="auth-button">
+      <i class="fas fa-sign-in-alt"></i>
+      <span class="auth-text">ลงทะเบียน/เข้าสู่ระบบ</span>
+    </button>
+
+    <!-- modal สำหรับแสดงรูปเต็มหน้าจอ -->
+    <div id="fullscreenModal" class="fullscreen-modal">
+      <span class="close">&times;</span>
+      <div class="fullscreen-content">
+        <img class="fullscreen-image" id="fullscreenImage" />
+        <div id="labelOverlay"></div>
+      </div>
+      <div id="labelDetails" class="label-details">
+        <div id="labeledImageContainer"></div>
+        <div id="labelText"></div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'myapp/js/detect.js' %}"></script>
+    <script>
+      let countdownInterval;
+
+      function updatePredictionLimitInfo(remainingPredictions, resetTime) {
+        const predictionLimitInfo = document.getElementById(
+          "predictionLimitInfo"
+        );
+        const remainingPredictionsSpan = document.getElementById(
+          "remainingPredictions"
+        );
+        const totalPredictionsSpan =
+          document.getElementById("totalPredictions");
+        const resetTimeInfo = document.getElementById("resetTimeInfo");
+        const resetCountdownSpan = document.getElementById("resetCountdown");
+        const progressBar = document.getElementById("predictionProgressBar");
+        const loginLink = document.getElementById("loginLink");
+
+        if (remainingPredictions === null) {
+          predictionLimitInfo.style.display = "none";
+          return;
+        }
+
+        predictionLimitInfo.style.display = "block";
+        remainingPredictionsSpan.textContent = remainingPredictions;
+        totalPredictionsSpan.textContent = TOTAL_PREDICTIONS;
+
+        // Update progress bar
+        const progressPercentage =
+          (remainingPredictions / TOTAL_PREDICTIONS) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+        progressBar.setAttribute("aria-valuenow", progressPercentage);
+
+        // Handle login link click
+        loginLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          window.location.href = "/login/";
+        });
+
+        if (resetTime) {
+          const resetDateTime = new Date(resetTime);
+
+          if (countdownInterval) {
+            clearInterval(countdownInterval);
+          }
+
+          const updateCountdown = () => {
+            const now = new Date();
+            const timeDiff = resetDateTime - now;
+
+            if (timeDiff > 0) {
+              const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+              const minutes = Math.floor(
+                (timeDiff % (1000 * 60 * 60)) / (1000 * 60)
+              );
+              const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+              resetCountdownSpan.textContent = `${hours
+                .toString()
+                .padStart(2, "0")}:${minutes
+                .toString()
+                .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+              resetTimeInfo.style.display = "flex";
+            } else {
+              resetTimeInfo.style.display = "none";
+              clearInterval(countdownInterval);
+              fetchInitialPredictionInfo();
+            }
+          };
+
+          updateCountdown();
+          countdownInterval = setInterval(updateCountdown, 1000);
+        } else {
+          resetTimeInfo.style.display = "none";
+          resetCountdownSpan.textContent = "00:00:00";
+        }
+      }
+
+      function fetchInitialPredictionInfo() {
+        $.ajax({
+          url: "/get_initial_prediction_info/",
+          type: "GET",
+          success: function (response) {
+            if (response.remaining_predictions !== null) {
+              updatePredictionLimitInfo(
+                response.remaining_predictions,
+                response.reset_time
+              );
+            } else {
+              // User is logged in, hide prediction limit info
+              document.getElementById("predictionLimitInfo").style.display =
+                "none";
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("Error fetching initial prediction info:", error);
+          },
+        });
+      }
+
+      $(document).ready(function () {
+        $.ajax({
+          url: "/load_history/",
+          type: "GET",
+          success: function (response) {
+            historyItems = response.history;
+            updateHistoryDisplay();
+          },
+          error: function (xhr, status, error) {
+            console.error("Error loading history:", error);
+          },
+        });
+      });
+    </script>
+    <script>
+      function uploadAndProcessImage(file) {
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+
+        disableButtons();
+        resetDisplayAndShowLoading();
+
+        $.ajax({
+          url: "/predict/",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            clearInterval(processingInterval);
+            if (response.results) {
+              displayResults(response);
+              displaySearchResults(response.search_results);
+            }
+            if (response.remaining_predictions !== undefined) {
+              updatePredictionLimitInfo(
+                response.remaining_predictions,
+                response.reset_time
+              );
+            }
+          },
+          error: function (xhr, status, error) {
+            clearInterval(processingInterval);
+            console.error(
+              "เกิดข้อผิดพลาดในการประมวลผลภาพ(ภาพที่แนบอาจมีความเบลอมากเกินไป) :",
+              error
+            );
+            if (xhr.status === 403) {
+              const response = JSON.parse(xhr.responseText);
+              if (response.remaining_predictions !== undefined) {
+                updatePredictionLimitInfo(
+                  response.remaining_predictions,
+                  response.reset_time
+                );
+              }
+              Swal.fire({
+                title: "ขออภัย ถึงขีดจำกัดการใช้งาน",
+                text: "กรุณาเข้าสู่ระบบเพื่อใช้งานไม่จำกัด",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "เข้าสู่ระบบ",
+                cancelButtonText: "ยกเลิก",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/login/";
+                }
+              });
+            } else {
+              imageResult.innerHTML =
+                "<p class='text-danger'><i class='fas fa-exclamation-triangle me-2'></i>เกิดข้อผิดพลาดในการประมวลผลภาพ(ภาพที่แนบอาจมีความเบลอมากเกินไป) กรุณาลองอีกครั้ง</p>";
+            }
+            enableButtons();
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
